@@ -1,0 +1,42 @@
+@model List<Dotnet_OngPhuong.Models.Field>
+
+@{
+    ViewData["Title"] = "Trang chủ người dùng";
+}
+
+<h2 class="mb-4">⚽ Danh sách sân bóng</h2>
+
+<table class="table table-striped table-bordered align-middle text-center">
+    <thead class="table-dark">
+        <tr>
+            <th>Tên sân</th>
+            <th>Giá thuê mỗi giờ</th>
+            <th>Mô tả</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var field in Model)
+        {
+            <tr>
+                <td>@field.FieldName</td>
+                <td>@field.PricePerHour.ToString("N0") đ</td>
+                <td>@field.Description</td>
+                <td>
+                    @if (field.Status == "Free")
+                    {
+                        <div class="d-flex flex-column align-items-center gap-2">
+                            <span class="badge bg-success px-3 py-2 fs-6">Chưa đặt</span>
+                            <a asp-controller="Booking" asp-action="Create" asp-route-id="@field.IDField"
+                               class="btn btn-sm btn-outline-primary">Đặt sân</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger px-3 py-2 fs-6">Đã có người đặt</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,77 @@
+@{
+    ViewData["Title"] = "Dashboard - Chủ sân bóng";
+}
+
+<h2 class="mb-4 text-primary fw-bold">🎉 Chào mừng, Chủ sân bóng!</h2>
+
+<div class="row mb-5">
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">⚽ Tổng số sân</h5>
+                <p class="card-text display-6 fw-semibold">@ViewBag.TotalFields</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">📅 Lượt đặt hôm nay</h5>
+                <p class="card-text display-6 fw-semibold">@ViewBag.TodayBookings</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 bg-warning text-dark">
+            <div class="card-body">
+                <h5 class="card-title">💰 Doanh thu hôm nay</h5>
+                <p class="card-text display-6 fw-semibold">@ViewBag.TodayRevenue.ToString("N0") VNĐ</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold">📋 Danh sách các sân</h4>
+    <a asp-controller="Field" asp-action="Create" class="btn btn-outline-success">➕ Thêm sân</a>
+</div>
+
+<table class="table table-hover table-bordered shadow-sm">
+    <thead class="table-light">
+        <tr>
+            <th>Tên sân</th>
+            <th>Giá thuê/giờ</th>
+            <th>Mô tả</th>
+            <th>Trạng thái</th>
+            <th class="text-center">Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var field in ViewBag.Fields)
+        {
+            <tr>
+                <td class="align-middle">@field.FieldName</td>
+                <td class="align-middle">@field.PricePerHour.ToString("N0") VNĐ</td>
+                <td class="align-middle">@field.Description</td>
+                <td class="align-middle">
+                    @if (field.Status == "Free")
+                    {
+                        <span class="badge bg-success px-3 py-2">Chưa đặt</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger px-3 py-2">Đã đặt</span>
+                    }
+                </td>
+                <td class="text-center">
+                    <a asp-controller="Field" asp-action="Edit" asp-route-id="@field.IDField" class="btn btn-sm btn-outline-primary me-1">
+                        ✏️ Sửa
+                    </a>
+                    <a asp-controller="Field" asp-action="Delete" asp-route-id="@field.IDField" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bạn có chắc muốn xóa sân này?');">
+                        🗑️ Xóa
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

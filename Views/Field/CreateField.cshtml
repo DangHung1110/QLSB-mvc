@@ -1,0 +1,46 @@
+@model Dotnet_OngPhuong.Models.Field
+
+@{
+    ViewData["Title"] = "Thêm sân bóng";
+}
+
+<h2>Thêm sân bóng mới</h2>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var modelState in ViewData.ModelState.Values)
+            {
+                foreach (var error in modelState.Errors)
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            }
+        </ul>
+    </div>
+}
+
+<form asp-controller="Field" asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="FieldName" class="form-label">Tên sân</label>
+        <input asp-for="FieldName" class="form-control" required />
+<span asp-validation-for="FieldName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="PricePerHour" class="form-label">Giá thuê mỗi giờ</label>
+        <input asp-for="PricePerHour" type="number" class="form-control" step="1000" required />
+<span asp-validation-for="PricePerHour" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Mô tả</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+<span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Thêm sân</button>
+<a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,20 @@
+﻿@model Dotnet_OngPhuong.Models.User
+
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+<h2>Đăng ký tài khoản</h2>
+<form asp-action="Register" method="post">
+    <div class="mb-3">
+        <label>Tên đăng nhập</label>
+        <input asp-for="UserName" class="form-control" required />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label>Mật khẩu</label>
+        <input asp-for="Password" type="password" class="form-control" required />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="text-danger">@ViewBag.Error</div>
+    <button type="submit" class="btn btn-success">Đăng ký</button>
+</form>

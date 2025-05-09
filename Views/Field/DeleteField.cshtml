@@ -1,0 +1,18 @@
+@model Dotnet_OngPhuong.Models.Field
+
+@{
+    ViewData["Title"] = "Xóa sân bóng";
+}
+
+<h2>Bạn có chắc muốn xóa sân "@Model.FieldName" không?</h2>
+
+<div>
+    <p><strong>Giá mỗi giờ:</strong> @Model.PricePerHour.ToString("0.#") đ</p>
+    <p><strong>Mô tả:</strong> @Model.Description</p>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="IDField" />
+    <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+    <a asp-action="Index" asp-controller="Admin" class="btn btn-secondary">Hủy</a>
+</form>

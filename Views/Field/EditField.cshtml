@@ -1,0 +1,31 @@
+@model Dotnet_OngPhuong.Models.Field
+
+@{
+    ViewData["Title"] = "Sửa thông tin sân";
+}
+
+<h2>Sửa sân bóng: @Model.FieldName</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="IDField" />
+
+    <div class="mb-3">
+        <label asp-for="FieldName" class="form-label">Tên sân</label>
+        <input asp-for="FieldName" class="form-control" readonly />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PricePerHour" class="form-label">Giá thuê mỗi giờ</label>
+        <input type="number" name="PricePerHour" class="form-control" step="1000"
+            value="@(Model.PricePerHour % 1 == 0 ? ((int)Model.PricePerHour).ToString() : Model.PricePerHour.ToString("0.##"))"
+            required />
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Mô tả</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Cập nhật</button>
+</form>
