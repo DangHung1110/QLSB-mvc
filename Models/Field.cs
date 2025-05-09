@@ -15,8 +15,6 @@ namespace Dotnet_OngPhuong.Models
 
         public string Description { get; set; }
 
-        public string Status { get; set; }  = "Free"; 
-
         public List<Booking> Bookings { get; set; } = new List<Booking>(); // Khởi tạo danh sách Bookings để tránh NullReferenceException
     }
 }

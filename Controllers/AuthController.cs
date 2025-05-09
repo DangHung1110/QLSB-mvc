@@ -45,6 +45,7 @@ namespace Dotnet_OngPhuong.Controllers
             }
 
             HttpContext.Session.SetString("ID", user.UserId.ToString());
+            HttpContext.Session.SetString("Username", user.UserName);
             HttpContext.Session.SetString("Role", user.Role);
 
             if(user.Role == "User")

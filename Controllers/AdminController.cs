@@ -1,7 +1,7 @@
 using Dotnet_OngPhuong.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Dotnet_OngPhuong.Models;
 namespace Dotnet_OngPhuong.Controllers
 {
     public class AdminController : Controller
@@ -16,30 +16,51 @@ namespace Dotnet_OngPhuong.Controllers
         public IActionResult Index()
         {
             var today = DateTime.Today;
-
-            // Lấy danh sách sân
             var fields = _context.Fields.ToList();
-
-            // Lấy danh sách đặt sân hôm nay
             var todayBookings = _context.Bookings
-                .Include(b => b.Field)
                 .Where(b => b.StartTime.Date == today)
                 .ToList();
 
-            // Tính doanh thu = tổng số giờ * giá mỗi giờ
-            decimal totalRevenue = 0;
-            foreach (var booking in todayBookings)
+            var fieldViewModels = fields.Select(field =>
             {
-                var hours = (decimal)(booking.EndTime - booking.StartTime).TotalHours;
-                totalRevenue += hours * booking.Field.PricePerHour;
-            }
+                var timeSlots = new List<TimeSlot>();
+
+                for (int hour = 7; hour < 19; hour++)
+                {
+                    var slotStart = new TimeSpan(hour, 0, 0);
+                    var isBooked = todayBookings.Any(b =>
+                        b.FieldId == field.IDField &&
+                        b.StartTime.TimeOfDay <= slotStart &&
+                        b.EndTime.TimeOfDay > slotStart);
+
+                    timeSlots.Add(new TimeSlot
+                    {
+                        StartTime = slotStart,
+                        IsBooked = isBooked
+                    });
+                }
+
+                return new BookingTimeSlotViewModel
+                {
+                    IDField = field.IDField,
+                    FieldName = field.FieldName,
+                    PricePerHour = field.PricePerHour,
+                    Description = field.Description,
+                    Date = today,
+                    TimeSlots = timeSlots
+                };
+            }).ToList();
+
+            // Thống kê
+            decimal totalRevenue = todayBookings.Sum(b =>
+                (decimal)(b.EndTime - b.StartTime).TotalHours * b.Field.PricePerHour);
 
             ViewBag.TotalFields = fields.Count;
             ViewBag.TodayBookings = todayBookings.Count;
             ViewBag.TodayRevenue = totalRevenue;
-            ViewBag.Fields = fields;
 
-            return View();
+            return View(fieldViewModels);
         }
+
     }
 }

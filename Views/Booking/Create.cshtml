@@ -1,0 +1,55 @@
+@model Dotnet_OngPhuong.Models.BookingTimeSlotViewModel
+
+@{
+    ViewData["Title"] = "Đặt sân - " + Model.FieldName;
+}
+
+<h2 class="mb-4">📅 Đặt sân: @Model.FieldName</h2>
+
+<form asp-action="ConfirmBooking" method="post">
+    <input type="hidden" name="FieldId" value="@Model.IDField" />
+    <input type="hidden" name="Date" value="@Model.Date.ToString("yyyy-MM-dd")" />
+
+    <div class="mb-3">
+        <label for="Date" class="form-label">Chọn ngày:</label>
+        <input type="date" name="SelectedDate" class="form-control" value="@Model.Date.ToString("yyyy-MM-dd")"
+               onchange="location.href='?date=' + this.value + '&fieldId=@Model.IDField'" />
+    </div>
+
+    <table class="table table-bordered text-center align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Thời gian</th>
+                <th>Trạng thái</th>
+                <th>Chọn</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for (int i = 0; i < Model.TimeSlots.Count; i++)
+        {
+            var slot = Model.TimeSlots[i];
+            <tr>
+                <td>@slot.StartTime.Hours:00 - @slot.EndTime.Hours:00</td>
+                <td>
+                    @if (slot.IsBooked)
+                    {
+                        <span class="badge bg-danger">Đã đặt</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">Trống</span>
+                    }
+                </td>
+                <td>
+                    @if (!slot.IsBooked)
+                    {
+                        <input type="radio" name="StartHour" value="@slot.StartTime.Hours" />
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary mt-3">Xác nhận đặt sân</button>
+</form>

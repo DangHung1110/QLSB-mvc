@@ -45,7 +45,6 @@ namespace Dotnet_OngPhuong.Controllers
             {
                 try
                 {
-                    field.Status = "Free"; 
                     _context.Fields.Add(field);
                     _context.SaveChanges();
                     TempData["Success"] = "Thêm sân thành công";

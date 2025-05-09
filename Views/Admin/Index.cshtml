@@ -1,3 +1,5 @@
+@model List<Dotnet_OngPhuong.Models.BookingTimeSlotViewModel>
+
 @{
     ViewData["Title"] = "Dashboard - Chủ sân bóng";
 }
@@ -47,31 +49,32 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var field in ViewBag.Fields)
+        @foreach (var field in Model)
         {
             <tr>
                 <td class="align-middle">@field.FieldName</td>
                 <td class="align-middle">@field.PricePerHour.ToString("N0") VNĐ</td>
                 <td class="align-middle">@field.Description</td>
                 <td class="align-middle">
-                    @if (field.Status == "Free")
+                    @foreach (var slot in field.TimeSlots)
                     {
-                        <span class="badge bg-success px-3 py-2">Chưa đặt</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-danger px-3 py-2">Đã đặt</span>
+                        <span class="badge @(slot.IsBooked ? "bg-danger" : "bg-success") me-1 mb-1">
+                            @slot.StartTime.Hours:00 - @slot.EndTime.Hours:00
+                        </span>
                     }
                 </td>
                 <td class="text-center">
-                    <a asp-controller="Field" asp-action="Edit" asp-route-id="@field.IDField" class="btn btn-sm btn-outline-primary me-1">
+                    <a asp-controller="Field" asp-action="Edit" asp-route-id="@field.IDField"
+                        class="btn btn-sm btn-outline-primary me-1">
                         ✏️ Sửa
                     </a>
-                    <a asp-controller="Field" asp-action="Delete" asp-route-id="@field.IDField" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bạn có chắc muốn xóa sân này?');">
+                    <a asp-controller="Field" asp-action="Delete" asp-route-id="@field.IDField"
+                        class="btn btn-sm btn-outline-danger">
                         🗑️ Xóa
                     </a>
                 </td>
             </tr>
         }
     </tbody>
+
 </table>

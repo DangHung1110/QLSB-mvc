@@ -36,7 +36,6 @@ namespace Dotnet_OngPhuong.Controllers
                 FieldName = f.FieldName,
                 PricePerHour = f.PricePerHour,
                 Description = f.Description,
-                Status = f.IsBooked ? "Booked" : "Free"
             })
             .ToList();
 

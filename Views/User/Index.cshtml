@@ -12,7 +12,7 @@
             <th>Tên sân</th>
             <th>Giá thuê mỗi giờ</th>
             <th>Mô tả</th>
-            <th>Trạng thái</th>
+            <th></th> <!-- Cột hành động -->
         </tr>
     </thead>
     <tbody>
@@ -23,18 +23,8 @@
                 <td>@field.PricePerHour.ToString("N0") đ</td>
                 <td>@field.Description</td>
                 <td>
-                    @if (field.Status == "Free")
-                    {
-                        <div class="d-flex flex-column align-items-center gap-2">
-                            <span class="badge bg-success px-3 py-2 fs-6">Chưa đặt</span>
-                            <a asp-controller="Booking" asp-action="Create" asp-route-id="@field.IDField"
-                               class="btn btn-sm btn-outline-primary">Đặt sân</a>
-                        </div>
-                    }
-                    else
-                    {
-                        <span class="badge bg-danger px-3 py-2 fs-6">Đã có người đặt</span>
-                    }
+                    <a asp-controller="Booking" asp-action="Create" asp-route-id="@field.IDField"
+                       class="btn btn-sm btn-primary">Đặt sân</a>
                 </td>
             </tr>
         }
