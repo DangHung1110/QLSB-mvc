@@ -1,12 +1,13 @@
 using Dotnet_OngPhuong.Data;
 using Dotnet_OngPhuong.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Dotnet_OngPhuong.Filters;
 
 namespace Dotnet_OngPhuong.Controllers
 {
-        public class FieldController : Controller
+    [AuthFilter]
+    public class FieldController : Controller
     {
         private readonly AppDBContext _context;
 
@@ -29,7 +30,7 @@ namespace Dotnet_OngPhuong.Controllers
             {
                 ModelState.AddModelError("FieldName", "Vui lòng nhập tên sân");
             }
-            
+
             if (field.PricePerHour <= 0)
             {
                 ModelState.AddModelError("PricePerHour", "Giá thuê phải lớn hơn 0");

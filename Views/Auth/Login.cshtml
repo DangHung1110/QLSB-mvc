@@ -1,16 +1,33 @@
 ﻿@{
     ViewData["Title"] = "Đăng nhập";
 }
-<h2>Đăng nhập</h2>
-<form method="post" class="form">
-    <div class="mb-3">
-        <label>Tên đăng nhập</label>
-        <input type="text" name="username" class="form-control" required />
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow p-4" style="min-width: 350px; max-width: 400px; width: 100%; border-radius: 1rem;">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">🔐 Đăng nhập</h2>
+            <p class="text-muted">Vui lòng nhập thông tin của bạn</p>
+        </div>
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label fw-semibold">👤 Tên đăng nhập</label>
+                <input type="text" name="username" class="form-control rounded-pill" placeholder="Nhập tên đăng nhập" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-semibold">🔑 Mật khẩu</label>
+                <input type="password" name="password" class="form-control rounded-pill" placeholder="Nhập mật khẩu" required />
+            </div>
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger py-2">
+                    @ViewBag.Error
+                </div>
+            }
+            <div class="d-grid mt-3">
+                <button type="submit" class="btn btn-primary rounded-pill fw-bold">
+                    Đăng nhập
+                </button>
+            </div>
+        </form>
     </div>
-    <div class="mb-3">
-        <label>Mật khẩu</label>
-        <input type="password" name="password" class="form-control" required />
-    </div>
-    <div class="text-danger">@ViewBag.Error</div>
-    <button type="submit" class="btn btn-primary">Đăng nhập</button>
-</form>
+</div>

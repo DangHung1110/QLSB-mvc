@@ -1,0 +1,51 @@
+@model List<Dotnet_OngPhuong.Models.BookingHistory>
+
+@{
+    ViewData["Title"] = "Lịch sử đặt sân";
+}
+
+<h2 class="mb-4">📜 Lịch sử đặt sân của bạn</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered text-center align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Tên sân</th>
+                <th>Thời gian thực hiện</th>
+                <th>Loại hành động</th>
+                <th>Chi tiết</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var history in Model.Where(h => 
+                h.Booking?.Status == Dotnet_OngPhuong.Models.BookingStatus.Cancelled || 
+                h.Booking?.Status == Dotnet_OngPhuong.Models.BookingStatus.Finished))
+            {
+                <tr>
+                    <td>@history.Field?.FieldName</td>
+                    <td>@history.ActionDate.ToString("HH:mm dd/MM/yyyy")</td>
+                    <td>
+                        @if (history.ActionType == "Confirmed")
+                        {
+                            <span class="badge bg-success">Đặt</span>
+                        }
+                        else if (history.ActionType == "Cancelled")
+                        {
+                            <span class="badge bg-danger">Hủy</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@history.ActionType</span>
+                        }
+                    </td>
+                    <td>@history.Details</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Bạn chưa có lịch sử đặt sân nào.</p>
+}

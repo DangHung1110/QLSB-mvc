@@ -4,6 +4,7 @@ using Dotnet_OngPhuong.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dotnet_OngPhuong.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250510093531_SLSBnew2")]
+    partial class SLSBnew2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,45 @@ namespace Dotnet_OngPhuong.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("BookingHistory", b =>
+                {
+                    b.Property<int>("BHId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("BHId"));
+
+                    b.Property<DateTime>("ActionDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ActionType")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("BookingId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("FieldId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BHId");
+
+                    b.HasIndex("BookingId");
+
+                    b.HasIndex("FieldId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("BookingHistories");
+                });
 
             modelBuilder.Entity("Dotnet_OngPhuong.Models.Booking", b =>
                 {
@@ -45,9 +87,6 @@ namespace Dotnet_OngPhuong.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -58,45 +97,6 @@ namespace Dotnet_OngPhuong.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Bookings");
-                });
-
-            modelBuilder.Entity("Dotnet_OngPhuong.Models.BookingHistory", b =>
-                {
-                    b.Property<int>("BHId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("BHId"));
-
-                    b.Property<DateTime>("ActionDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("ActionType")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("BookingId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Details")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("FieldId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BHId");
-
-                    b.HasIndex("BookingId");
-
-                    b.HasIndex("FieldId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("BookingHistories");
                 });
 
             modelBuilder.Entity("Dotnet_OngPhuong.Models.Field", b =>
@@ -148,30 +148,13 @@ namespace Dotnet_OngPhuong.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Dotnet_OngPhuong.Models.Booking", b =>
-                {
-                    b.HasOne("Dotnet_OngPhuong.Models.Field", "Field")
-                        .WithMany("Bookings")
-                        .HasForeignKey("FieldId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Dotnet_OngPhuong.Models.User", "User")
-                        .WithMany("Bookings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Field");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Dotnet_OngPhuong.Models.BookingHistory", b =>
+            modelBuilder.Entity("BookingHistory", b =>
                 {
                     b.HasOne("Dotnet_OngPhuong.Models.Booking", "Booking")
                         .WithMany()
-                        .HasForeignKey("BookingId");
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Dotnet_OngPhuong.Models.Field", "Field")
                         .WithMany()
@@ -186,6 +169,25 @@ namespace Dotnet_OngPhuong.Migrations
                         .IsRequired();
 
                     b.Navigation("Booking");
+
+                    b.Navigation("Field");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Dotnet_OngPhuong.Models.Booking", b =>
+                {
+                    b.HasOne("Dotnet_OngPhuong.Models.Field", "Field")
+                        .WithMany("Bookings")
+                        .HasForeignKey("FieldId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Dotnet_OngPhuong.Models.User", "User")
+                        .WithMany("Bookings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Field");
 

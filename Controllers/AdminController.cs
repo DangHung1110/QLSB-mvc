@@ -2,8 +2,10 @@ using Dotnet_OngPhuong.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Dotnet_OngPhuong.Models;
+using Dotnet_OngPhuong.Filters;
 namespace Dotnet_OngPhuong.Controllers
 {
+    [AuthFilter]
     public class AdminController : Controller
     {
         private readonly AppDBContext _context;
@@ -51,9 +53,10 @@ namespace Dotnet_OngPhuong.Controllers
                 };
             }).ToList();
 
-            // Thống kê
-            decimal totalRevenue = todayBookings.Sum(b =>
-                (decimal)(b.EndTime - b.StartTime).TotalHours * b.Field.PricePerHour);
+            //  Chỉ tính revenue từ các booking đã thanh toán
+            decimal totalRevenue = todayBookings
+                .Where(b => b.IsPaid == true) 
+                .Sum(b => (decimal)(b.EndTime - b.StartTime).TotalHours * b.Field.PricePerHour);
 
             ViewBag.TotalFields = fields.Count;
             ViewBag.TodayBookings = todayBookings.Count;
@@ -62,5 +65,53 @@ namespace Dotnet_OngPhuong.Controllers
             return View(fieldViewModels);
         }
 
+        public IActionResult TodayBookings()
+        {
+            var today = DateTime.Today;
+
+            var bookings = _context.Bookings
+                .Include(b => b.User)
+                .Include(b => b.Field)
+                .Where(b => b.StartTime.Date == today && b.IsConfirmed && !b.IsPaid && b.Status == BookingStatus.Active)
+                .OrderBy(b => b.StartTime)
+                .ToList();
+
+            return View(bookings);
+        }
+
+        [HttpPost]
+        public IActionResult ConfirmPayment(int bookingId)
+        {
+            var booking = _context.Bookings
+                .Include(b => b.Field)
+                .Include(b => b.User)
+                .FirstOrDefault(b => b.BookingId == bookingId);
+
+            if (booking == null)
+            {
+                TempData["Error"] = "Không tìm thấy lượt đặt.";
+                return RedirectToAction("TodayBookings");
+            }
+
+            booking.IsPaid = true;
+            booking.Status = BookingStatus.Finished;
+
+            // Ghi vào lịch sử trước khi xóa
+            var history = new BookingHistory
+            {
+                BookingId = booking.BookingId,
+                UserId = booking.UserId,
+                FieldId = booking.FieldId,
+                ActionDate = DateTime.Now,
+                ActionType = "Confirmed",
+                Details = $"Admin xác nhận thanh toán cho sân {booking.Field.FieldName} - {booking.StartTime:HH:mm dd/MM/yyyy}"
+            };
+
+            _context.BookingHistories.Add(history);
+            _context.SaveChanges();
+
+            TempData["Success"] = "Đã xác nhận thanh toán.";
+            return RedirectToAction("TodayBookings");
+        }
     }
 }

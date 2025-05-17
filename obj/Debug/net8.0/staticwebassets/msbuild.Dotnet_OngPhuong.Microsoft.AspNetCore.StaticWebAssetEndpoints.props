@@ -16,13 +16,13 @@
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Dotnet_OngPhuong.yg4xoiukp4.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-HusXYcXEQWrjnYiWfa8\u002BtJhwBJsEIIQ0SmiZX4Rj8P4="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1134"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022HusXYcXEQWrjnYiWfa8\u002BtJhwBJsEIIQ0SmiZX4Rj8P4=\u0022"},{"Name":"Last-Modified","Value":"Tue, 06 May 2025 12:30:31 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1134"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022HusXYcXEQWrjnYiWfa8\u002BtJhwBJsEIIQ0SmiZX4Rj8P4=\u0022"},{"Name":"Last-Modified","Value":"Sat, 17 May 2025 12:43:22 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Dotnet_OngPhuong/Dotnet_OngPhuong.yg4xoiukp4.bundle.scp.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Dotnet_OngPhuong.yg4xoiukp4.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"yg4xoiukp4"},{"Name":"integrity","Value":"sha256-HusXYcXEQWrjnYiWfa8\u002BtJhwBJsEIIQ0SmiZX4Rj8P4="},{"Name":"label","Value":"_content/Dotnet_OngPhuong/Dotnet_OngPhuong.bundle.scp.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1134"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022HusXYcXEQWrjnYiWfa8\u002BtJhwBJsEIIQ0SmiZX4Rj8P4=\u0022"},{"Name":"Last-Modified","Value":"Tue, 06 May 2025 12:30:31 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1134"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022HusXYcXEQWrjnYiWfa8\u002BtJhwBJsEIIQ0SmiZX4Rj8P4=\u0022"},{"Name":"Last-Modified","Value":"Sat, 17 May 2025 12:43:22 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Dotnet_OngPhuong/favicon.61n19gt1b8.ico">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\favicon.ico'))</AssetFile>

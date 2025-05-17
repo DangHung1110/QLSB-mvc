@@ -19,5 +19,8 @@ namespace Dotnet_OngPhuong.Models
         public User User { get; set; }
 
         public bool IsConfirmed { get; set; } = false;
+        public bool IsPaid { get; set; } = false;
+
+        public BookingStatus Status { get; set; } = BookingStatus.Active;
     }
 }

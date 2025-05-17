@@ -1,0 +1,59 @@
+@model List<Dotnet_OngPhuong.Models.Booking>
+
+@{
+    ViewData["Title"] = "Danh sách đặt sân hôm nay";
+}
+
+<h3 class="mb-4 text-primary fw-bold">🕑 Danh sách đặt sân hôm nay</h3>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Không có lượt đặt sân nào hôm nay.</div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Khách hàng</th>
+                <th>Sân</th>
+                <th>Giờ</th>
+                <th>Trạng thái</th>
+                <th class="text-center">Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.User.UserName</td>
+                    <td>@booking.Field.FieldName</td>
+                    <td>@booking.StartTime.ToString("HH:mm") - @booking.EndTime.ToString("HH:mm")</td>
+                    <td>
+                        @if (booking.IsPaid)
+                        {
+                            <span class="badge bg-success">Đã thanh toán</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning text-dark">Chờ thanh toán</span>
+                        }
+                    </td>
+                    <td class="text-center">
+                        @if (!booking.IsPaid)
+                        {
+                            <form asp-action="ConfirmPayment" asp-controller="Admin" method="post">
+                                <input type="hidden" name="bookingId" value="@booking.BookingId" />
+                                <button type="submit" class="btn btn-sm btn-outline-success">✅ Xác nhận thanh toán</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="text-muted">✔</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+} 

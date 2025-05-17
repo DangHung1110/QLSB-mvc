@@ -31,7 +31,7 @@ namespace Dotnet_OngPhuong.Controllers
             password = password.Trim();
 
             var user = _context.Users.FirstOrDefault(u => u.UserName == username);
-            
+
             if (user == null)
             {
                 ViewBag.Error = "Sai tài khoản hoặc mật khẩu";
@@ -48,12 +48,12 @@ namespace Dotnet_OngPhuong.Controllers
             HttpContext.Session.SetString("Username", user.UserName);
             HttpContext.Session.SetString("Role", user.Role);
 
-            if(user.Role == "User")
+            if (user.Role == "User")
                 return RedirectToAction("Index", "User");
 
             if (user.Role == "Admin")
                 return RedirectToAction("Index", "Admin");
-             
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -64,17 +64,17 @@ namespace Dotnet_OngPhuong.Controllers
         public IActionResult Register(User user)
         {
             if (!ModelState.IsValid)
-    {
-        // Log hoặc xem các lỗi cụ thể
-        foreach (var state in ModelState)
-        {
-            foreach (var error in state.Value.Errors)
             {
-                Console.WriteLine($"Field: {state.Key}, Error: {error.ErrorMessage}");
+                // Log hoặc xem các lỗi cụ thể
+                foreach (var state in ModelState)
+                {
+                    foreach (var error in state.Value.Errors)
+                    {
+                        Console.WriteLine($"Field: {state.Key}, Error: {error.ErrorMessage}");
+                    }
+                }
+                return View(user);
             }
-        }
-        return View(user);
-    }
 
             // Kiểm tra tên người dùng đã tồn tại
             var exists = _context.Users.Any(u => u.UserName == user.UserName);
@@ -101,7 +101,5 @@ namespace Dotnet_OngPhuong.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
-
-        
     }
 }

@@ -9,6 +9,7 @@ namespace Dotnet_OngPhuong.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Field> Fields { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<BookingHistory> BookingHistories { get; set; }
 
         public static void SeedData(AppDBContext context)
         {
@@ -18,7 +19,7 @@ namespace Dotnet_OngPhuong.Data
                 {
                     UserName = "ChuSan",
                     Password = BCrypt.Net.BCrypt.HashPassword("Muvodich"),
-                    Role = "Admin", 
+                    Role = "Admin",
                 };
 
                 context.Users.Add(ChuSan);
